@@ -8,6 +8,6 @@ namespace StorageFunc.Interfaces
         public string Name { get; set; } = string.Empty;
 
         [JsonPropertyName("file")]
-        public byte[] File { get; set; };
+        public byte[] File { get; set; }
     }
 }
