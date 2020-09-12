@@ -28,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit", "unit", "{7F48B88A-6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "release", "release", "{EC9C2024-7F3E-4C94-B592-9BC6A96AB14E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageFunc", "src\StorageFunc\StorageFunc.csproj", "{F9655DC2-1A17-4AF6-A324-8D3916A190B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageFunc", "src\StorageFunc\StorageFunc.csproj", "{F9655DC2-1A17-4AF6-A324-8D3916A190B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
