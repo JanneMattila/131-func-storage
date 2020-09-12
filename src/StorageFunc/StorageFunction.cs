@@ -1,19 +1,16 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
+using Azure.Storage;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
+using Azure.Storage.Sas;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
-using StorageFunc.Interfaces;
-using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
-using Microsoft.Extensions.Azure;
-using Azure.Storage.Sas;
-using Azure.Storage;
 using Microsoft.WindowsAzure.Storage;
+using StorageFunc.Interfaces;
+using System;
+using System.Threading.Tasks;
 
 namespace StorageFunc
 {
@@ -24,7 +21,7 @@ namespace StorageFunc
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("Csv converter function processed a request.");
+            log.LogInformation("Storage function processed a request.");
 
             string filename = req.Headers["Filename"];
             string validity = req.Headers["Validity"];

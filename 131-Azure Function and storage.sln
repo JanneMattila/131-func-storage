@@ -30,6 +30,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "release", "release", "{EC9C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StorageFunc", "src\StorageFunc\StorageFunc.csproj", "{F9655DC2-1A17-4AF6-A324-8D3916A190B2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{6945B579-830C-4411-91D3-864C381D6710}"
+	ProjectSection(SolutionItems) = preProject
+		doc\example.xlsx = doc\example.xlsx
+		doc\image.png = doc\image.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +54,7 @@ Global
 		{7F48B88A-6EC7-4AA2-84C5-CAC112F80102} = {70D80D12-0F5B-4966-9543-5304131A9000}
 		{EC9C2024-7F3E-4C94-B592-9BC6A96AB14E} = {70D80D12-0F5B-4966-9543-5304131A9000}
 		{F9655DC2-1A17-4AF6-A324-8D3916A190B2} = {E74445DD-28F2-4920-961A-C3778DA73664}
+		{6945B579-830C-4411-91D3-864C381D6710} = {7B2AAD5E-368D-44EC-9215-418C718128CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F99521D6-99C8-41D7-83DC-3D5523498EE7}

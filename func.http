@@ -1,9 +1,25 @@
 @func = http://localhost:7071
 
-### Upload file
+### Upload text file
 POST {{func}}/api/storage HTTP/1.1
 Content-type: text/plain
 Filename: README.md
 Validity: 600
 
 < README.md
+
+### Upload image file
+POST {{func}}/api/storage HTTP/1.1
+Content-type: image/png
+Filename: MyExampleImage.png
+Validity: 600
+
+< ./doc/image.png
+
+### Upload excel file
+POST {{func}}/api/storage HTTP/1.1
+Content-type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+Filename: CorporateFinance.xlsx
+Validity: 600
+
+< ./doc/example.xlsx
