@@ -11,6 +11,9 @@ using StorageFunc.Interfaces;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.Extensions.Azure;
+using Azure.Storage.Sas;
+using Azure.Storage;
+using Microsoft.WindowsAzure.Storage;
 
 namespace StorageFunc
 {
@@ -39,17 +42,20 @@ namespace StorageFunc
             }
 
             var contentType = req.ContentType;
-            //using var reader = new BinaryReader(req.Body);
-            //var imageData = reader.ReadBytes((int)req.ContentLength.Value);
+            var duration = Convert.ToInt32(validity);
 
+            const string containerName = "files";
             var storageConnectionString = Environment.GetEnvironmentVariable("Storage");
+            var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
+            var accountName = storageAccount.Credentials.AccountName;
+            var KeyValue = storageAccount.Credentials.ExportBase64EncodedKey();
             var blobServiceClient = new BlobServiceClient(storageConnectionString);
-            var blobContainerClient = blobServiceClient.GetBlobContainerClient("files");
+            var blobContainerClient = blobServiceClient.GetBlobContainerClient(containerName);
 
-            var container = await blobContainerClient.CreateIfNotExistsAsync(PublicAccessType.None);
+            await blobContainerClient.CreateIfNotExistsAsync(PublicAccessType.None);
 
             var blobClient = blobContainerClient.GetBlobClient(filename);
-            var blob = await blobClient.UploadAsync(req.Body, new BlobUploadOptions()
+            await blobClient.UploadAsync(req.Body, new BlobUploadOptions()
             {
                 HttpHeaders = new BlobHttpHeaders()
                 {
@@ -57,11 +63,21 @@ namespace StorageFunc
                 }
             });
 
-            var uri = blobClient.Uri;
+            var sasBuilder = new BlobSasBuilder()
+            {
+                BlobContainerName = containerName,
+                BlobName = filename,
+                Resource = "b", // b=blob
+                ExpiresOn = DateTimeOffset.UtcNow.AddSeconds(duration)
+            };
+
+            sasBuilder.SetPermissions(BlobSasPermissions.Read);
+            var credentials = new StorageSharedKeyCredential(accountName, KeyValue);
+            var queryParameters = sasBuilder.ToSasQueryParameters(credentials);
             return new OkObjectResult(new FileResponse()
             {
-                Uri = uri.ToString(),
-                ValidUntil = DateTimeOffset.UtcNow.AddHours(1)
+                Uri = $"{blobClient.Uri}?{queryParameters}",
+                ExpiresOn = sasBuilder.ExpiresOn
             });
         }
     }

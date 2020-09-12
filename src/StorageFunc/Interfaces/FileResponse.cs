@@ -9,6 +9,6 @@ namespace StorageFunc.Interfaces
         public string Uri { get; set; } = string.Empty;
 
         [JsonPropertyName("validUntil")]
-        public DateTimeOffset ValidUntil { get; set; }
+        public DateTimeOffset ExpiresOn { get; set; }
     }
 }
