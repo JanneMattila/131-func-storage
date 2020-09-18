@@ -1,12 +1,16 @@
 @func = http://localhost:7071
 
 ### Upload text file
+# @name readmeResponse
 POST {{func}}/api/storage HTTP/1.1
 Content-type: text/plain
 Filename: README.md
 Validity: 600
 
 < README.md
+
+### Fetch README
+GET {{readmeResponse.response.body.uri}} HTTP/1.1
 
 ### Upload image file
 POST {{func}}/api/storage HTTP/1.1
