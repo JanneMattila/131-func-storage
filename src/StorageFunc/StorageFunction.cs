@@ -25,8 +25,15 @@ namespace StorageFunc
 
             string filename = req.Headers["Filename"];
             string validity = req.Headers["Validity"];
+            var contentType = req.ContentType;
+            var overrideContentType = req.Headers["X-Content-Type"];
 
-            if (string.IsNullOrEmpty(req.ContentType))
+            if (!string.IsNullOrEmpty(overrideContentType))
+            {
+                contentType = overrideContentType;
+            }
+
+            if (string.IsNullOrEmpty(contentType))
             {
                 log.LogWarning("Content-Type is required header.");
                 return new BadRequestObjectResult("Content-Type is required header.");
@@ -38,7 +45,6 @@ namespace StorageFunc
                 return new BadRequestObjectResult("Content-Length is required header.");
             }
 
-            var contentType = req.ContentType;
             var duration = Convert.ToInt32(validity);
 
             const string containerName = "files";

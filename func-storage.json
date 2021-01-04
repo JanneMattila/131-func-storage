@@ -1,0 +1,90 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Valet Key API",
+    "description": "Valet Key API example using Azure Functions",
+    "version": "1.0"
+  },
+  "host": "todo.azurewebsites.net",
+  "basePath": "/api",
+  "schemes": [
+    "https"
+  ],
+  "definitions": {
+    "storageResponse": {
+      "description": "File upload response",
+      "type": "object",
+      "properties": {
+        "uri": {
+          "type": "string",
+          "description": "Url of the uploaded file including sas token"
+        },
+        "expiresOn": {
+          "type": "string",
+          "format": "datetime",
+          "description": "Expiration time of the sas token"
+        }
+      }
+    }
+  },
+  "paths": {
+    "/storage": {
+      "post": {
+        "operationId": "uploadFile",
+        "summary": "Upload file to storage",
+        "description": "Upload file to storage using valet key pattern for exposing for sharing it with other parties",
+        "consumes": [
+          "application/octet-stream"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "File",
+            "description": "File upload",
+            "required": true,
+            "schema": {
+              "example": "[binary data]"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-Content-Type",
+            "description": "Override Content-Type of the file",
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "Filename",
+            "description": "Filename of the uploaded content",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Validity",
+            "description": "How long in seconds is the access to the file valid",
+            "type": "integer",
+            "default": 600,
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/storageResponse"
+            },
+            "examples": {
+              "200": {
+                "value": "{\n  \"uri\": \"http://127.0.0.1:10000/devstoreaccount1/files/CorporateFinance.xlsx?sv=2019-12-12&se=2020-09-12T13%3A21%3A57Z&sr=b&sp=r&sig=qdzylLTO8JkhtgDn3Soc1TaP0OLQ6vUQ4N0ZetDKLOM%3D\",\n  \"expiresOn\": \"2020-09-12T13:21:57.4141973+00:00\"\n}"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
